@@ -9,25 +9,38 @@ function App() {
   const [users, setUsers] = useState(initialState);
   // TODO: 이름과 나이를 각각 상태로 정의하세요. 초기값은 빈문자열("")입니다.
   const [name, setName] = useState("");
-  const [age, setAge] = useState("0");
+  const [age, setAge] = useState("");
+
+  const style = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    border: "1px solid #000",
+    gap : '10px'
+  }
 
   const addUser = (e) => {
     e.preventDefault();
     // TODO: 이름과 나이가 모두 입력되지 않았을 때는 alert 처리하고 함수를 종료하세요. 논리합연산자 (||) 를 이용하세요.
+    if (name === '') {
+      alert('이름이 빈 값입니다.');
+      return;
+    }
 
     // TODO: 사용자 리스트 상태를 업데이트 하세요. spread operator 를 사용하고, 추가되는 id는 현재 시간을 밀리초 단위로 반환하는 Date.now() 를 사용하세요.
     const newUser = {
-      id: Date.now() + 1,
+      id: Date.now(),
       name: name,
       age : age,
     }
     setUsers([...users, newUser])
+    setName('')
+    setAge('')
   };
 
   const removeUser = (id) => {
     // TODO: filter 메소드를 사용해서 사용자 삭제 로직을 구현해 보세요.
-    // const newUserList = users.filter((user) => user.id !== id);
-    // setUsers(newUserList)
+    setUsers(users.filter((user) => user.id !== id))
   };
 
   return (
@@ -47,9 +60,7 @@ function App() {
           onChange={(e) => setAge(e.target.value)}
           placeholder="나이"
         />
-        <button type="submit" onClick={addUser}>
-          사용자 추가
-        </button>
+        <button type="submit">사용자 추가</button>
       </form>
       <ul>
         {/* TODO: map 메소드를 이용해서 user 리스트를 렌더링하세요.  */}
@@ -58,14 +69,7 @@ function App() {
           return (
             <li
               key={user}
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                border: "1px solid #000",
-                gap : '10px'
-              }}
-            >
+              style={style}>
               <p>{`이름: ${user.name}`}</p>
               <p>{`나이: ${user.age}`}</p>
               <button onClick={removeUser}>삭제</button>
