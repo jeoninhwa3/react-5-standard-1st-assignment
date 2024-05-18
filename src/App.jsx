@@ -16,31 +16,32 @@ function App() {
     justifyContent: "center",
     alignItems: "center",
     border: "1px solid #000",
-    gap : '10px'
-  }
+    gap: "10px",
+  };
 
   const addUser = (e) => {
     e.preventDefault();
     // TODO: 이름과 나이가 모두 입력되지 않았을 때는 alert 처리하고 함수를 종료하세요. 논리합연산자 (||) 를 이용하세요.
-    if (name === '') {
-      alert('이름이 빈 값입니다.');
+    if (name === "" || age === "") {
+      alert("이름과 나이를 모두 입력해주세요.");
       return;
     }
 
     // TODO: 사용자 리스트 상태를 업데이트 하세요. spread operator 를 사용하고, 추가되는 id는 현재 시간을 밀리초 단위로 반환하는 Date.now() 를 사용하세요.
     const newUser = {
       id: Date.now(),
-      name: name,
-      age : age,
-    }
-    setUsers([...users, newUser])
-    setName('')
-    setAge('')
+      name,
+      age,
+    };
+    setUsers([...users, newUser]);
+    setName("");
+    setAge("");
   };
 
   const removeUser = (id) => {
     // TODO: filter 메소드를 사용해서 사용자 삭제 로직을 구현해 보세요.
-    setUsers(users.filter((user) => user.id !== id))
+    setUsers(users.filter((user) => user.id !== id));
+    console.log(users);
   };
 
   return (
@@ -67,12 +68,16 @@ function App() {
         {/* 이름: John, 나이: 20 [삭제] 버튼이 하나의 행에 나올 수 있도록 해보세요. (hint: flex) */}
         {users.map((user) => {
           return (
-            <li
-              key={user}
-              style={style}>
+            <li key={user.id} style={style}>
               <p>{`이름: ${user.name}`}</p>
               <p>{`나이: ${user.age}`}</p>
-              <button onClick={removeUser}>삭제</button>
+              <button
+                onClick={() => {
+                  removeUser(user.id);
+                }}
+              >
+                삭제
+              </button>
             </li>
           );
         })}
